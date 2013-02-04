@@ -1,4 +1,8 @@
-function Color(r, g, b) {
+if (this.princessJS == undefined){
+	this.princessJs = {};
+}
+
+princessJs.Color = function(r, g, b) {
     var _r = r ? r : 0;
     var _g = g ? g : 0;
     var _b = b ? b : 0;
@@ -19,7 +23,7 @@ function Color(r, g, b) {
     };
 
     this.toHexCode = function () {
-        return Color.getHexCode(_r,_g,_b);
+        return princessJs.Color.getHexCode(_r,_g,_b);
     };
 
     this.toRGB = function () {
@@ -46,11 +50,11 @@ function Color(r, g, b) {
         var r = getColorValue(_r + _rgb.r);
         var g = getColorValue(_g + _rgb.g);
         var b = getColorValue(_b + _rgb.b);
-        return new Color(r, g, b);
+        return new princessJs.Color(r, g, b);
     };
 }
 
-Color.getRGB = function(hexCode){
+princessJs.Color.getRGB = function(hexCode){
     //#00ffffと00ffff
     var _hexCode = hexCode.substr(hexCode.length - 6, 6);
     var _rHex = _hexCode.substring(0, 2);
@@ -66,7 +70,7 @@ Color.getRGB = function(hexCode){
     };
 };
 
-Color.getHexCode = function(r, g, b){
+princessJs.Color.getHexCode = function(r, g, b){
     function getHexPaddingString(v) {
         var temp = "00" + parseInt(v).toString(16);
         temp = temp.substr(temp.length - 2, 2);
@@ -79,19 +83,19 @@ Color.getHexCode = function(r, g, b){
     return _hexCode;
 };
 
-Color.getCssHexCode = function(r, g, b){
-    return "#" + Color.getHexCode(r, g, b);
+princessJs.Color.getCssHexCode = function(r, g, b){
+    return "#" + princessJs.Color.getHexCode(r, g, b);
 };
 
-Color.create = function (r, g, b) {
-    return new Color(r, g, b);
+princessJs.Color.create = function (r, g, b) {
+    return new princessJs.Color(r, g, b);
 };
 
-Color.createFromRGB = function (rgb) {
-    return new Color(rgb.r, rgb.g, rgb.b);
+princessJs.Color.createFromRGB = function (rgb) {
+    return new princessJs.Color(rgb.r, rgb.g, rgb.b);
 };
 
-Color.createFromHexCode = function (hexCode) {
-    var rgb = Color.getRGB(hexCode);
-    return new Color(rgb.r, rgb.g, rgb.b);
+princessJs.Color.createFromHexCode = function (hexCode) {
+    var rgb = princessJs.Color.getRGB(hexCode);
+    return new princessJs.Color(rgb.r, rgb.g, rgb.b);
 };
