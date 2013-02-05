@@ -1,101 +1,174 @@
-if (this.princessJS == undefined){
-	this.princessJs = {};
+if (typeof princessJS == "undefined"){
+	var princessJs = {};
 }
+(function() {
+	var ns = princessJs;
+	ns.Color = function(r, g, b) {
+		var r_ = r ? r : 0;
+		var g_ = g ? g : 0;
+		var b_ = b ? b : 0;
 
-princessJs.Color = function(r, g, b) {
-    var _r = r ? r : 0;
-    var _g = g ? g : 0;
-    var _b = b ? b : 0;
+		function getColorValue_(value){
+			if(value > 255) {
+				return 255;
+			}else if(value < 0) {
+				return 0;
+			}else {
+				return value;
+			}
+		}
 
-    function getColorValue(value){
-        if(value > 255) {
-            return 255;
-        }else if(value < 0) {
-            return 0;
-        }else {
-            return value;
-        }
-    }
+		this.toCssHexCode = function () {
+			var _color = "#" + this.toHexCode();
+			return _color;
+		};
 
-    this.toCssHexCode = function () {
-        var color = "#" + this.toHexCode();
-        return color;
-    };
+		this.toHexCode = function () {
+			return ns.Color.getHexCode(r_, g_, b_);
+		};
 
-    this.toHexCode = function () {
-        return princessJs.Color.getHexCode(_r,_g,_b);
-    };
+		this.toRGB = function () {
+			return { r: r_,
+				g: g_,
+				b: b_
+			};
+		};
 
-    this.toRGB = function () {
-        return { r: _r,
-            g: _g,
-            b: _b
-        };
-    };
+		this.toHSV = function() {
+			var h = ns.Color.getHue(r_, g_, b_);
+			var s = ns.Color.getSaturation(r_, g_, b_);
+			var v = ns.Color.getLightness(r_, g_, b_);
+			return { h: h,
+				s: s,
+				v: v
+			};
+		};
+		
+		//mutable
+		this.additiveBlend = function(color){
+			var _rgb = color.toRGB();
+			r_ += _rgb.r;
+			g_ += _rgb.g;
+			b_ += _rgb.b;
+			r_ = getColorValue_(r_);
+			g_ = getColorValue_(g_);
+			b_ = getColorValue_(b_);
+		};
+		
+		//immutable
+		this.createAdditiveBlendedColor = function(color){
+			var rgb = color.toRGB();
+			var r = getColorValue_(r_ + rgb.r);
+			var g = getColorValue_(g_ + rgb.g);
+			var b = getColorValue_(b_ + rgb.b);
+			return new ns.Color(r, g, b);
+		};
+	};
 
-    //mutable
-    this.additiveBlend = function(color){
-        var _rgb = color.toRGB();
-        _r += _rgb.r;
-        _g += _rgb.g;
-        _b += _rgb.b;
+	ns.Color.getRGB = function(hexCode){
+		//#00ffffと00ffff
+		var _hexCode = hexCode.substr(hexCode.length - 6, 6);
+		var _rHex = _hexCode.substring(0, 2);
+		var _gHex = _hexCode.substring(2, 4);
+		var _bHex = _hexCode.substring(4, 6);
+		var _r = parseInt(_rHex, 16);
+		var _g = parseInt(_gHex, 16);
+		var _b = parseInt(_bHex, 16);
+		return {
+			r:_r,
+			g:_g,
+			b:_b
+		};
+	};
 
-        _r = getColorValue(_r);
-        _g = getColorValue(_g);
-        _b = getColorValue(_b);
-    };
-    //immutable
-    this.additiveBlendColor = function(color){
-        var _rgb = color.toRGB();
-        var r = getColorValue(_r + _rgb.r);
-        var g = getColorValue(_g + _rgb.g);
-        var b = getColorValue(_b + _rgb.b);
-        return new princessJs.Color(r, g, b);
-    };
-}
+	ns.Color.getHexCode = function(r, g, b){
+		function getHexPaddingString(v) {
+			var temp = "00" + parseInt(v).toString(16);
+			temp = temp.substr(temp.length - 2, 2);
+			return temp;
+		}
+		var _rHexCode = getHexPaddingString(r);
+		var _gHexCode = getHexPaddingString(g);
+		var _bHexCode = getHexPaddingString(b);
+		var _hexCode = "" + _rHexCode + _gHexCode + _bHexCode;
+		return _hexCode;
+	};
 
-princessJs.Color.getRGB = function(hexCode){
-    //#00ffffと00ffff
-    var _hexCode = hexCode.substr(hexCode.length - 6, 6);
-    var _rHex = _hexCode.substring(0, 2);
-    var _gHex = _hexCode.substring(2, 4);
-    var _bHex = _hexCode.substring(4, 6);
-    var _r = parseInt(_rHex, 16);
-    var _g = parseInt(_gHex, 16);
-    var _b = parseInt(_bHex, 16);
-    return {
-        r:_r,
-        g:_g,
-        b:_b
-    };
-};
+	ns.Color.getCssHexCode = function(r, g, b){
+		return "#" + ns.Color.getHexCode(r, g, b);
+	};
 
-princessJs.Color.getHexCode = function(r, g, b){
-    function getHexPaddingString(v) {
-        var temp = "00" + parseInt(v).toString(16);
-        temp = temp.substr(temp.length - 2, 2);
-        return temp;
-    }
-    var _rHexCode = getHexPaddingString(r);
-    var _gHexCode = getHexPaddingString(g);
-    var _bHexCode = getHexPaddingString(b);
-    var _hexCode = "" + _rHexCode + _gHexCode + _bHexCode;
-    return _hexCode;
-};
+	ns.Color.create = function (r, g, b) {
+		return new ns.Color(r, g, b);
+	};
 
-princessJs.Color.getCssHexCode = function(r, g, b){
-    return "#" + princessJs.Color.getHexCode(r, g, b);
-};
+	ns.Color.createFromRGB = function (rgb) {
+		return new ns.Color(rgb.r, rgb.g, rgb.b);
+	};
+	
+	ns.Color.createFromHSV = function (hsv) {
+		return new ns.Color(hsv.h, hsv.s, hsv.v);
+	};
 
-princessJs.Color.create = function (r, g, b) {
-    return new princessJs.Color(r, g, b);
-};
+	ns.Color.createFromHexCode = function (hexCode) {
+		var _rgb = ns.Color.getRGB(hexCode);
+		return new ns.Color(_rgb.r, _rgb.g, _rgb.b);
+	};
+	
+	ns.Color.getHue = function(r, g, b) {
+		var max = getMinMax(r,g,b).max;
+		var min = getMinMax(r,g,b).min;
+		if( max == min) { 
+			return 0;
+		}
+		var hue;
+		if (r == max) {
+			hue = 0 | (60 * ( g - b ) / (max - min)) + 0;
+		} else if (g == max) {
+			hue = 0 | (60 * ( b - r ) / (max - min)) + 120;
+		} else if (b == max) {
+			hue = 0 | (60 * ( r - g ) / (max - min)) + 240;
+		}
+		
+		if(hue < 0) {
+			hue += 360;
+		}
+		return hue;
+	};
 
-princessJs.Color.createFromRGB = function (rgb) {
-    return new princessJs.Color(rgb.r, rgb.g, rgb.b);
-};
-
-princessJs.Color.createFromHexCode = function (hexCode) {
-    var rgb = princessJs.Color.getRGB(hexCode);
-    return new princessJs.Color(rgb.r, rgb.g, rgb.b);
-};
+	ns.Color.getSaturation = function(r, g, b) {
+		var saturation;
+		var max = getMinMax(r,g,b).max;
+		var min = getMinMax(r,g,b).min;
+		if(max == 0) {
+			saturation = 0;
+		}else{
+			saturation = 0 | (255 * (max - min)/max);
+		}
+		return saturation;
+	};
+	
+	ns.Color.getLightness = function(r, g, b) {
+		var max = getMinMax(r,g,b).max;
+		return 0 | max;
+	};
+	
+	ns.Color.getColorValue = function(value) {
+		if(value > 255) {
+			return 255;
+		}else if(value < 0) {
+			return 0;
+		}else {
+			return value;
+		}
+	};
+	
+	function getMinMax(var_args) {
+		var max = Math.max.apply(null,arguments);
+		var min = Math.min.apply(null,arguments);
+		return {
+			max : max,
+			min : min
+		};
+	}
+})();
