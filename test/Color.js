@@ -1,4 +1,4 @@
-TestCase("Test",{
+TestCase("Test Color",{
     "test Color.toHexCode. black": function(){
         var result = new princessJs.Color(0, 0, 0).toHexCode();
         assertString(result);
