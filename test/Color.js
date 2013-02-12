@@ -112,12 +112,30 @@ TestCase("Test Color",{
 		assertEquals(210,actual6);
 	},
 	
-	"test Color.getColorValue" : function() {
-		var actual0 = princessJs.Color.getColorValue(256);
-		var actual1 = princessJs.Color.getColorValue(-1);
-		var actual2 = princessJs.Color.getColorValue(254);
+	"test Color.getRGBColorValue" : function() {
+		var actual0 = princessJs.Color.getRGBColorValue(256);
+		var actual1 = princessJs.Color.getRGBColorValue(-1);
+		var actual2 = princessJs.Color.getRGBColorValue(254);
 		assertEquals(255,actual0);
 		assertEquals(0,actual1);
 		assertEquals(254,actual2);
+	},
+	"test Color.getHSV": function() {
+		var actual0 = princessJs.Color.getHSV(359,0,255);
+		assertEquals({r:255,g:255,b:255},actual0);
+		var actual1 = princessJs.Color.getHSV(0,1,255);
+		assertEquals({r:255,g:254,b:254},actual1);
+		var actual2 = princessJs.Color.getHSV(0,255,255);
+		assertEquals({r:255,g:0,b:0},actual2);
+		var actual3 = princessJs.Color.getHSV(60,255,255);
+		assertEquals({r:255,g:255,b:0},actual3);
+		var actual4 = princessJs.Color.getHSV(120,255,255);
+		assertEquals({r:0,g:255,b:0},actual4);
+		var actual5 = princessJs.Color.getHSV(180,255,255);
+		assertEquals({r:0,g:255,b:255},actual5);
+		var actual6 = princessJs.Color.getHSV(240,255,255);
+		assertEquals({r:0,g:0,b:255},actual6);
+		var actual6 = princessJs.Color.getHSV(300,255,255);
+		assertEquals({r:255,g:0,b:255},actual6);
 	}
 });

@@ -8,16 +8,6 @@ if (typeof princessJS == "undefined"){
 		var g_ = g ? g : 0;
 		var b_ = b ? b : 0;
 
-		function getColorValue_(value){
-			if(value > 255) {
-				return 255;
-			}else if(value < 0) {
-				return 0;
-			}else {
-				return value;
-			}
-		}
-
 		this.toCssHexCode = function () {
 			var _color = "#" + this.toHexCode();
 			return _color;
@@ -50,17 +40,17 @@ if (typeof princessJS == "undefined"){
 			r_ += _rgb.r;
 			g_ += _rgb.g;
 			b_ += _rgb.b;
-			r_ = getColorValue_(r_);
-			g_ = getColorValue_(g_);
-			b_ = getColorValue_(b_);
+			r_ = ns.Color.getRGBColorValue(r_);
+			g_ = ns.Color.getRGBColorValue(g_);
+			b_ = ns.Color.getRGBColorValue(b_);
 		};
 		
 		//immutable
 		this.createAdditiveBlendedColor = function(color){
 			var rgb = color.toRGB();
-			var r = getColorValue_(r_ + rgb.r);
-			var g = getColorValue_(g_ + rgb.g);
-			var b = getColorValue_(b_ + rgb.b);
+			var r = ns.Color.getRGBColorValue(r_ + rgb.r);
+			var g = ns.Color.getRGBColorValue(g_ + rgb.g);
+			var b = ns.Color.getRGBColorValue(b_ + rgb.b);
 			return new ns.Color(r, g, b);
 		};
 	};
@@ -153,7 +143,7 @@ if (typeof princessJS == "undefined"){
 		return 0 | max;
 	};
 	
-	ns.Color.getColorValue = function(value) {
+	ns.Color.getRGBColorValue = function(value) {
 		if(value > 255) {
 			return 255;
 		}else if(value < 0) {
@@ -161,6 +151,61 @@ if (typeof princessJS == "undefined"){
 		}else {
 			return value;
 		}
+	};
+
+	ns.Color.getHSV = function(h, s, v){
+		if(h > 360 || h < 0){ throw new Error("ArgumentException")}
+		if(s > 255 || s < 0){ throw new Error("ArgumentException")}
+		if(v > 255 || v < 0){ throw new Error("ArgumentException")}
+		
+		if(s == 0){
+			return {r:v,g:v,b:v};
+		}
+		var hi = 0 | (h / 60);
+		var f = (h / 60) - hi;
+		var p = v * (1 - s/255);
+		var q = v * (1 - f * s / 255);
+		var t = v * (1 - (1 - f) * s / 255);
+		var rgb = {r:null,g:null,b:null};
+		switch(hi) {
+			case 0:
+				rgb.r = v;
+				rgb.g = t;
+				rgb.b = p;
+				return rgb;
+				break;
+			case 1:
+				rgb.r = q;
+				rgb.g = v;
+				rgb.b = p;
+				return rgb;
+				break;
+			case 2:
+				rgb.r = p;
+				rgb.g = v;
+				rgb.b = t;
+				return rgb;
+				break;
+			case 3:
+				rgb.r = p;
+				rgb.g = q;
+				rgb.b = v;
+				return rgb;
+				break;
+			case 4:
+				rgb.r = t;
+				rgb.g = p;
+				rgb.b = v;
+				return rgb;
+				break;
+			case 5:
+				rgb.r = v;
+				rgb.g = p;
+				rgb.b = q;
+				return rgb;
+				break;
+		}
+		
 	};
 	
 	function getMinMax(var_args) {
