@@ -98,7 +98,7 @@ if (typeof princessJS == "undefined"){
 	
 	ns.Color.createFromHSV = function (hsv) {
 		var rgb = ns.Color.getRGBFromHSV(hsv.h,hsv.s,hsv.v);
-		return new ns.Color(hsv.h, hsv.s, hsv.v);
+		return new ns.Color(rgb.r, rgb.g, rgb.b);
 	};
 
 	ns.Color.createFromHexCode = function (hexCode) {
