@@ -120,22 +120,43 @@ TestCase("Test Color",{
 		assertEquals(0,actual1);
 		assertEquals(254,actual2);
 	},
-	"test Color.getHSV": function() {
-		var actual0 = princessJs.Color.getHSV(359,0,255);
+	"test Color.getRGBFromHSV": function() {
+		var actual0 = princessJs.Color.getRGBFromHSV(359,0,255);
 		assertEquals({r:255,g:255,b:255},actual0);
-		var actual1 = princessJs.Color.getHSV(0,1,255);
+		var actual1 = princessJs.Color.getRGBFromHSV(0,1,255);
 		assertEquals({r:255,g:254,b:254},actual1);
-		var actual2 = princessJs.Color.getHSV(0,255,255);
+		var actual2 = princessJs.Color.getRGBFromHSV(0,255,255);
 		assertEquals({r:255,g:0,b:0},actual2);
-		var actual3 = princessJs.Color.getHSV(60,255,255);
+		var actual3 = princessJs.Color.getRGBFromHSV(60,255,255);
 		assertEquals({r:255,g:255,b:0},actual3);
-		var actual4 = princessJs.Color.getHSV(120,255,255);
+		var actual4 = princessJs.Color.getRGBFromHSV(120,255,255);
 		assertEquals({r:0,g:255,b:0},actual4);
-		var actual5 = princessJs.Color.getHSV(180,255,255);
+		var actual5 = princessJs.Color.getRGBFromHSV(180,255,255);
 		assertEquals({r:0,g:255,b:255},actual5);
-		var actual6 = princessJs.Color.getHSV(240,255,255);
+		var actual6 = princessJs.Color.getRGBFromHSV(240,255,255);
 		assertEquals({r:0,g:0,b:255},actual6);
-		var actual6 = princessJs.Color.getHSV(300,255,255);
+		var actual6 = princessJs.Color.getRGBFromHSV(300,255,255);
 		assertEquals({r:255,g:0,b:255},actual6);
-	}
+	},
+	"test RGB -> HSV -> RGB": function() {
+		function testcase(rgb){
+			var hsv = princessJs.Color.getHSVFromRGB(rgb.r,rgb.g,rgb.b);
+			var actual = princessJs.Color.getRGBFromHSV(hsv.h,hsv.s,hsv.v);
+			assertEquals(rgb,actual);
+		}
+		testcase({r:100,g:100,b:100});
+		testcase({r:200,g:200,b:200});
+		testcase({r:254,g:254,b:254});
+		testcase({r:128,g:128,b:128});
+	},
+	"test HSV -> RGB -> HSV": function() {
+		//　これ戻るの無理だけど。
+		function testcase(hsv){
+			var rgb = princessJs.Color.getRGBFromHSV(hsv.h,hsv.s,hsv.v);
+			var actual = princessJs.Color.getHSVFromRGB(rgb.r,rgb.g,rgb.b);
+			assertEquals(hsv,actual);
+		}
+		testcase({h:0,s:0,v:0});
+		testcase({h:60,s:60,v:60});
+	},
 });
