@@ -9,8 +9,8 @@ if (typeof princessJS == "undefined"){
 		var b_ = b ? b : 0;
 
 		this.toCssHexCode = function () {
-			var _color = "#" + this.toHexCode();
-			return _color;
+			var color = "#" + this.toHexCode();
+			return color;
 		};
 
 		this.toHexCode = function () {
@@ -58,16 +58,16 @@ if (typeof princessJS == "undefined"){
 	ns.Color.getRGB = function(hexCode){
 		//#00ffffと00ffff
 		var _hexCode = hexCode.substr(hexCode.length - 6, 6);
-		var _rHex = _hexCode.substring(0, 2);
-		var _gHex = _hexCode.substring(2, 4);
-		var _bHex = _hexCode.substring(4, 6);
-		var _r = parseInt(_rHex, 16);
-		var _g = parseInt(_gHex, 16);
-		var _b = parseInt(_bHex, 16);
+		var rHex = _hexCode.substring(0, 2);
+		var gHex = _hexCode.substring(2, 4);
+		var bHex = _hexCode.substring(4, 6);
+		var r = parseInt(rHex, 16);
+		var g = parseInt(gHex, 16);
+		var b = parseInt(bHex, 16);
 		return {
-			r:_r,
-			g:_g,
-			b:_b
+			r:r,
+			g:g,
+			b:b
 		};
 	};
 
@@ -77,11 +77,11 @@ if (typeof princessJS == "undefined"){
 			temp = temp.substr(temp.length - 2, 2);
 			return temp;
 		}
-		var _rHexCode = getHexPaddingString(r);
-		var _gHexCode = getHexPaddingString(g);
-		var _bHexCode = getHexPaddingString(b);
-		var _hexCode = "" + _rHexCode + _gHexCode + _bHexCode;
-		return _hexCode;
+		var rHexCode = getHexPaddingString(r);
+		var gHexCode = getHexPaddingString(g);
+		var bHexCode = getHexPaddingString(b);
+		var hexCode = "" + rHexCode + gHexCode + bHexCode;
+		return hexCode;
 	};
 
 	ns.Color.getCssHexCode = function(r, g, b){
@@ -97,13 +97,25 @@ if (typeof princessJS == "undefined"){
 	};
 	
 	ns.Color.createFromHSV = function (hsv) {
-		return new ns.Color(hsv.h, hsv.s, hsv.v);
+		var rgb = ns.Color.getRGBFromHSV(hsv.h,hsv.s,hsv.v);
+		return new ns.Color(rgb.r, rgb.g, rgb.b);
 	};
 
 	ns.Color.createFromHexCode = function (hexCode) {
 		var _rgb = ns.Color.getRGB(hexCode);
 		return new ns.Color(_rgb.r, _rgb.g, _rgb.b);
 	};
+	
+	ns.Color.getHSVFromRGB = function(r, g, b) {
+		var h = ns.Color.getHue(r, g, b);
+		var s = ns.Color.getSaturation(r, g, b);
+		var v = ns.Color.getLightness(r, g, b);
+		return {
+			h:h,
+			s:s,
+			v:v
+		};
+	},
 	
 	ns.Color.getHue = function(r, g, b) {
 		var max = getMinMax(r,g,b).max;
@@ -153,7 +165,7 @@ if (typeof princessJS == "undefined"){
 		}
 	};
 
-	ns.Color.getHSV = function(h, s, v){
+	ns.Color.getRGBFromHSV = function(h, s, v){
 		if(h > 360 || h < 0){ throw new Error("ArgumentException")}
 		if(s > 255 || s < 0){ throw new Error("ArgumentException")}
 		if(v > 255 || v < 0){ throw new Error("ArgumentException")}
@@ -166,6 +178,7 @@ if (typeof princessJS == "undefined"){
 		var p = v * (1 - s/255);
 		var q = v * (1 - f * s / 255);
 		var t = v * (1 - (1 - f) * s / 255);
+
 		var rgb = {r:null,g:null,b:null};
 		switch(hi) {
 			case 0:
