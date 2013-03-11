@@ -159,4 +159,16 @@ TestCase("Test Color",{
 		testcase({h:0,s:0,v:0});
 		testcase({h:60,s:60,v:60});
 	},
+
+    "test Color.getSanitizedHSV" : function() {
+        function getActual(h,s,v){
+            var actual = princessJs.Color.getSanitizedHSV(h,s,v);
+            return actual;
+        }
+        ;
+        assertEquals({h:0,s:0,v:0}, getActual(-1,-1,-1));
+        assertEquals({h:0,s:0,v:0}, getActual(0,0,0));
+        assertEquals({h:1,s:1,v:1}, getActual(1,1,1));
+        assertEquals({h:0, s:255, v:255}, getActual(360, 256, 256));
+    }
 });

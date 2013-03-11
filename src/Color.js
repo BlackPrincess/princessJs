@@ -1,8 +1,9 @@
 if (typeof princessJS == "undefined"){
-	var princessJs = {};
+	princessJs = {};
 }
 (function() {
 	var ns = princessJs;
+
 	ns.Color = function(r, g, b) {
 		var r_ = r ? r : 0;
 		var g_ = g ? g : 0;
@@ -97,7 +98,7 @@ if (typeof princessJS == "undefined"){
 	};
 	
 	ns.Color.createFromHSV = function (hsv) {
-		var rgb = ns.Color.getRGBFromHSV(hsv.h,hsv.s,hsv.v);
+		var rgb = ns.Color.getRGBFromHSV(hsv.h, hsv.s, hsv.v);
 		return new ns.Color(rgb.r, rgb.g, rgb.b);
 	};
 
@@ -151,7 +152,7 @@ if (typeof princessJS == "undefined"){
 	};
 	
 	ns.Color.getLightness = function(r, g, b) {
-		var max = getMinMax(r,g,b).max;
+		var max = getMinMax(r, g, b).max;
 		return 0 | max;
 	};
 	
@@ -165,21 +166,40 @@ if (typeof princessJS == "undefined"){
 		}
 	};
 
+    ns.Color.getSanitizedHSV = function(h, s, v){
+        if(h >= 360) {  h = h % 360; }
+        if(h < 0){      h = 0; }
+        if(s > 255) {   s = 255; }
+        if(s < 0){      s = 0; }
+        if(v > 255){    v = 255; }
+        if(v < 0){      v = 0; }
+        return {h:h,
+            s:s,
+            v:v};
+    };
+
 	ns.Color.getRGBFromHSV = function(h, s, v){
-		if(h > 360 || h < 0){ throw new Error("ArgumentException")}
-		if(s > 255 || s < 0){ throw new Error("ArgumentException")}
-		if(v > 255 || v < 0){ throw new Error("ArgumentException")}
-		
+        var hsv = ns.Color.getSanitizedHSV(h, s, v);
+		h = hsv.h;
+		s = hsv.s;
+        v = hsv.v;
+
 		if(s == 0){
-			return {r:v,g:v,b:v};
+			return { r:v,
+                g:v,
+                b:v };
 		}
+
 		var hi = 0 | (h / 60);
 		var f = (h / 60) - hi;
-		var p = v * (1 - s/255);
+		var p = v * (1 - s / 255);
 		var q = v * (1 - f * s / 255);
 		var t = v * (1 - (1 - f) * s / 255);
 
-		var rgb = {r:null,g:null,b:null};
+		var rgb = {r:null,
+            g:null,
+            b:null};
+
 		switch(hi) {
 			case 0:
 				rgb.r = v;
@@ -222,8 +242,8 @@ if (typeof princessJS == "undefined"){
 	};
 	
 	function getMinMax(var_args) {
-		var max = Math.max.apply(null,arguments);
-		var min = Math.min.apply(null,arguments);
+		var max = Math.max.apply(null, arguments);
+		var min = Math.min.apply(null, arguments);
 		return {
 			max : max,
 			min : min
