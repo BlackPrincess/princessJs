@@ -1,4 +1,5 @@
-TestCase("TestStringExtension",{
+TestCase("Test String Extension",{
+
     "test String.prototype.format": function(){
         var actual = "{0} is Foo.{1} is Bar".format("Foo", "Bar");
         assertString(actual);
