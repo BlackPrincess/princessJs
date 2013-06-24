@@ -1,7 +1,7 @@
-if (typeof princessJs == "undefined"){
+if (typeof princessJs === "undefined"){
 	var princessJs = {};
 }
-if (typeof princessJs.util == "undefined"){
+if (typeof princessJs.util === "undefined"){
 	princessJs.util = {};
 }
 (function() {
@@ -13,7 +13,7 @@ if (typeof princessJs.util == "undefined"){
 	*/
 	ns.memorizer = function(func) {
 		var memo = {};
-		if(func.length == 1){
+		if(func.length === 1){
 			return function(arg) {
 				if(typeof(arg) === "undefined") {
 					arg = "undefined";
@@ -27,7 +27,7 @@ if (typeof princessJs.util == "undefined"){
 				}
 			};
 		} else {
-			return function(var_args) {
+			return function(/* var_args */) {
 				var arg = Array.prototype.slice.call(arguments);
 				if(memo[arg]) {
 					return memo[arg];

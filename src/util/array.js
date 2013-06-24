@@ -1,7 +1,7 @@
-if (typeof princessJs == "undefined"){
+if (typeof princessJs === "undefined"){
 	var princessJs = {};
 }
-if (typeof princessJs.util == "undefined"){
+if (typeof princessJs.util === "undefined"){
 	princessJs.util = {};
 }
 (function() {
@@ -22,11 +22,11 @@ if (typeof princessJs.util == "undefined"){
     var _distinct = function (array) {
         var u = {}, ret = [];
         for(var i = 0, l = array.length; i < l; ++i){
-           if(u.hasOwnProperty(array[i])) {
-              continue;
-           }
-           ret.push(array[i]);
-           u[array[i]] = 1;
+            if(u.hasOwnProperty(array[i])) {
+                continue;
+            }
+            ret.push(array[i]);
+            u[array[i]] = 1;
         }
         return ret;
     };
@@ -47,5 +47,5 @@ if (typeof princessJs.util == "undefined"){
             if(added) ret.push(array[i]);
         }
         return ret;
-    }
+    };
 })();

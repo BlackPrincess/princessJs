@@ -1,7 +1,7 @@
-if (typeof princessJs == "undefined"){
+if (typeof princessJs === "undefined"){
 	var princessJs = {};
 }
-if (typeof princessJs.util == "undefined"){
+if (typeof princessJs.util === "undefined"){
 	princessJs.util = {};
 }
 (function() {
@@ -17,5 +17,5 @@ if (typeof princessJs.util == "undefined"){
           .replace(/</g, '&lt;')
           .replace(/>/g, '&gt;')
           .replace(/"/g, '&quot;');
-	}
+	};
 })();

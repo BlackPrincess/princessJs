@@ -1,7 +1,7 @@
-if (typeof princessJs == "undefined"){
+if (typeof princessJs === "undefined"){
 	var princessJs = {};
 }
-if (typeof princessJs.util == "undefined"){
+if (typeof princessJs.util === "undefined"){
 	princessJs.util = {};
 }
 (function() {
@@ -12,14 +12,14 @@ if (typeof princessJs.util == "undefined"){
 	* @returns {function} カリー化された関数
 	*/
 	ns.curry = function(f) {
-		if (f.length == 0) {
+		if (f.length === 0) {
 			return f;
 		}
-		function iterate(var_args) {
-			if (var_args.length >= f.length)
-				return f.apply(null, var_args);
+		function iterate(varArgs) {
+			if (varArgs.length >= f.length)
+				return f.apply(null, varArgs);
 			return function () {
-				return iterate(var_args.concat(Array.prototype.slice.call(arguments)));
+				return iterate(varArgs.concat(Array.prototype.slice.call(arguments)));
 			};
 		}
 		return iterate([]);
