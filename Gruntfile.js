@@ -12,7 +12,11 @@ module.exports = function(grunt) {
             extend: {
                 src: [ 'src/extend/*.js'],
                 dest: 'build/<%= pkg.nameExtend %>.js'
-            }
+            },
+			"jquery-extends": {
+				src: [ 'src/jquery/extend/*.js'],
+                dest: 'build/<%= pkg.nameJqueryExtend %>.js'
+			}
         },
  
         uglify: {
@@ -26,6 +30,10 @@ module.exports = function(grunt) {
 			extend: {
 				src: 'build/<%= pkg.nameExtend %>.js',
 				dest: 'build/<%= pkg.nameExtend %>.min.js',
+			},
+			"jquery-extends": {
+				src: 'build/<%= pkg.nameJqueryExtend %>.js',
+				dest: 'build/<%= pkg.nameJqueryExtend %>.min.js',
 			}
         },
         jshint: {
@@ -33,7 +41,6 @@ module.exports = function(grunt) {
             options: {
                 jshintrc: '.jshintrc'
             }
-
         }
     });
  

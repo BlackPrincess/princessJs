@@ -1,6 +1,7 @@
 {
   "name": "princessjs",
   "nameExtend": "princessjs.extend",
+  "nameJqueryExtend": "jquery.extend",
   "version": "0.0.1",
   "devDependencies": {
     "grunt": "~0.4.1",

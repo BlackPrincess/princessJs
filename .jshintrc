@@ -8,5 +8,7 @@
 	"undef":true,
 	"eqeqeq": true,
 	"maxdepth": 4,
-	"maxcomplexity":15	
+	"maxcomplexity":15,
+	
+	"jquery":true
 }

@@ -1,7 +1,3 @@
-if(typeof jQuery === undefined) {
-    var jQuery = {};
-}
-
 (function($){
     var _number = function(){
         var value = $(this).val();
