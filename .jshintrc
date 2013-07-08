@@ -1,14 +1,17 @@
 {
 	"indent" : 4,
 	"camelcase": true,
+	"quotmark":"double",
 	"maxlen":100,
 	"trailing":true,
 	"expr":true,
 	"unused":true,
 	"undef":true,
+	"forin":true,
 	"eqeqeq": true,
+	"eqnull":true,
 	"maxdepth": 4,
 	"maxcomplexity":15,
-	
+	"maxparams":4,
 	"jquery":true
 }

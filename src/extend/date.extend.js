@@ -150,7 +150,7 @@ Date.prototype.toFormatString = function(format) {
     var mm = m.length === 1 ? "0" + m : m;
     var s = this.getSeconds().toString();
     var ss = s.length === 1 ? "0" + s : s;
-    var millis = '000' + this.getMilliseconds().toString();
+    var millis = "000" + this.getMilliseconds().toString();
     var f = millis.substr(millis.length - 3, 1);
     var ff = millis.substr(millis.length - 3, 2);
     var fff = millis.substr(millis.length - 3, 3);

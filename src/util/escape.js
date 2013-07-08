@@ -13,9 +13,9 @@ if (typeof princessJs.util === "undefined"){
 	*/
 	ns.escape = function(text) {
 		return String(text)
-          .replace(/&(?!\w+;)/g, '&amp;')
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;')
-          .replace(/"/g, '&quot;');
+          .replace(/&(?!\w+;)/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
 	};
 })();
