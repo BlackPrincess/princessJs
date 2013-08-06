@@ -23,6 +23,52 @@ TestCase("Test String Extension",{
         assertEquals("Foo is Foo.{bar} is Bar", actual);
     },
 
+    "test String.prototype.toInt (NaN)" : function() {
+        var actual = "NaN".toInt();
+        assertNaN(actual);
+    },
+
+    "test String.prototype.toInt" : function() {
+        var actual = "0123".toInt();
+        assertNumber(actual);
+        assertEquals(123, actual);
+    },
+
+    "test String.prototype.toFloat (NaN)" : function() {
+        var actual = "NaN".toFloat();
+        assertNaN(actual);
+    },
+
+    "test String.prototype.toFloat" : function() {
+        var actual = "00.123".toFloat();
+        assertNumber(actual);
+        assertEquals(0.123, actual);
+    },
+
+    "test String.prototype.toIntOrZero" : function() {
+        var actual = "0123".toIntOrZero();
+        assertNumber(actual);
+        assertEquals(123, actual);
+    },
+
+    "test String.prototype.toIntOrZero NaN" : function() {
+        var actual = "NaN".toIntOrZero();
+        assertNumber(actual);
+        assertEquals(0, actual);
+    },
+
+    "test String.prototype.toFloatOrZero" : function() {
+        var actual = "00.123".toFloatOrZero();
+        assertNumber(actual);
+        assertEquals(0.123, actual);
+    },
+
+    "test String.prototype.toFloatOrZero NaN" : function() {
+        var actual = "NaN".toFloatOrZero();
+        assertNumber(actual);
+        assertEquals(0, actual);
+    },
+
     "test String.prototype.toHalfNumber" : function() {
         // TODO:JsTestDriverで実行できるように対応
         // var actual = "０．２".toHalfNumber();

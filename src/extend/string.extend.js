@@ -21,6 +21,39 @@ String.prototype.format = function(arg) {
     return str.replace( /(?!\{)*\{(\w+)\}/g, repFn );
 };
 
+/**
+ * Int型へと変換します
+ * @returns {Number} 変換した値
+ */
+String.prototype.toInt = function() {
+    return parseInt(this, 10);
+};
+
+/**
+ * Float型へと変換します
+ * @returns {Number} 変換した値
+ */
+String.prototype.toFloat = function() {
+    return parseFloat(this);
+};
+
+/**
+ * Int型へと変換します。変換できない場合は0を返します
+ * @returns {Number} 変換した値。または0
+ */
+String.prototype.toIntOrZero = function() {
+    return (isNaN(this)) ? 0 : this.toInt();
+};
+
+/**
+ * Float型へと変換します。変換できない場合は0.0を返します
+ * @returns {Number} 変換した値。または0.0
+ */
+String.prototype.toFloatOrZero = function() {
+    return (isNaN(this)) ? 0.0 : this.toFloat();
+};
+
+
 (function(){
     var charCode = 0xFEE0;
     /**
@@ -45,6 +78,7 @@ String.prototype.format = function(arg) {
         });
     };
 })();
+
 /**
  * 全角文字を取り除いた文字列を返します
  * @returns {string} 全角文字を取り除いた文字列
